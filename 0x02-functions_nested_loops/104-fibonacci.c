@@ -8,9 +8,9 @@ int main(void)
 {
 	int counter = 2;
 
-	float a = 1;
-	float b = a + 1;
-	float c = a + b;
+	unsigned long int a = 1;
+	unsigned long int b = a + 1;
+	unsigned long int c = a + b;
 
 	printf("%lu, ", a);
 	printf("%lu, ", b);
