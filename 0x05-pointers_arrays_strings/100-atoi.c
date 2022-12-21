@@ -33,5 +33,5 @@ int _atoi(char *s)
 	if (neg < 0)
 		_c *= -1;
 
-	return (_s);
+	return (_c);
 }
