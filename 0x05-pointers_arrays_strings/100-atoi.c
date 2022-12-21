@@ -1,46 +1,37 @@
 #include "main.h"
-#include "2-strlen.c"
 
 /**
- * _atoi - converts string to integer
- * @s: string to convert
- *
- * Return: returns integer value
+ * _atoi - converts a string to integer
+ *  @s: char string parameter
+ * Return: this returns (firstNum) the first integer that is
+ * found in the string, if not returns (0)
  */
+
 int _atoi(char *s)
 {
 	int i;
-	int np = 0;
-	int c;
-	int d = 1;
-	int num = 0;
+	int _c, neg;
 
-	for (i = 0; i < _strlen(s); i++)
+	_c = 0;
+	neg = -1;
+	for (i = 0; s[i] != '\0'; i++)
 	{
-		if (!(s[i] >= '0' && s[i] <= '9') && c > 0)
-			break;
 		if (s[i] == '-')
-			np--;
-		if (s[i] == '+')
-			np++;
-		if (s[i] >= '0' && s[i] <= '9')
+			neg *= -1;
+
+		if (s[i] > 47 && s[i] < 58)
 		{
-			c++;
+			if (_c < 0)
+				_c = (_c * 10) - (s[i] - '0');
+			else
+				_c = (s[i] - '0') * -1;
+
+			if (s[i + 1] < 48 || s[i + 1] > 57)
+				break;
 		}
 	}
-	while (c > 0)
-	{
-		num += ((s[i - 1] - '0') * d);
-		i--;
-		c--;
-		d *= 10;
-	}
-	if (np >= 0)
-	{
-		num *= 1;
-	} else
-	{
-		num *= -1;
-	}
-	return (num);
+	if (neg < 0)
+		_c *= -1;
+
+	return (_s);
 }
