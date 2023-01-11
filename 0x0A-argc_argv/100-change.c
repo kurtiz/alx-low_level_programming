@@ -1,51 +1,81 @@
 #include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+
 /**
- * main - main function
- * @argc: argumentc
- * @argv: vector of arguments
- *Return: always 0
+ * make_change - finds least number of coins
+ * @n: money amount
+ * Return: number of coins
  */
-int main(int argc, char  *argv[])
+
+int make_change(int n)
 {
-	int coins = 0;
-	int money;
+	int coins, quarters, dimes, nickels, twocents, pennies;
 
-	if (argc == 2)
+	coins = 0;
+	quarters = 0;
+	dimes = 0;
+	nickels = 0;
+	twocents = 0;
+	pennies = 0;
+
+	while (n > 0)
 	{
-		if (strchr(argv[argc - 1], '-'))
+		if (n >= 25)
 		{
-			printf("0\n");
-			return (1);
+			n -= 25;
+			quarters += 1;
 		}
-
-		money = atoi(argv[argc - 1]);
-
-		while (money > 0)
+		else if (n >= 10)
 		{
-			if (money % 25 == 0)
-			{
-				money -= 25;
-			} else if (money % 10 == 0)
-			{
-				money -= 10;
-			} else if (money % 5 == 0)
-			{
-				money -= 5;
-			} else if (money % 2 == 0)
-			{
-				money -= 2;
-			} else
-			{
-				money--;
-			}
-			coins++;
+			n -= 10;
+			dimes += 1;
 		}
-		printf("%d\n", coins);
-		return (0);
+		else if (n >= 5)
+		{
+			n -= 5;
+			nickels += 1;
+		}
+		else if (n >= 2)
+		{
+			n -= 2;
+			twocents += 1;
+		}
+		else
+		{
+			n -= 1;
+			pennies += 1;
+		}
 	}
-	printf("Error\n");
-	return (1);
+	coins = quarters + dimes + nickels + twocents + pennies;
+
+	return (coins);
+}
+
+/**
+ * main - prints minimum number of coins to make change
+ * @argc: number of arguments
+ * @argv: array of arguments
+ * Return: (0)
+ */
+
+int main(int argc, char *argv[])
+{
+	int coins;
+
+	if (argc != 2)
+	{
+		printf("Error\n");
+		return (1);
+	}
+	else if (atoi(argv[1]) < 0)
+	{
+		printf("0\n");
+	}
+	else
+	{
+		coins = make_change(atoi(argv[1]));
+		printf("%d\n", coins);
+	}
+	return (0);
 }
