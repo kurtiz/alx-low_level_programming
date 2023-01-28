@@ -1,6 +1,5 @@
 /*
  * File: 100-first.c
- * Auth: Brennan D Baraban
  */
 
 #include <stdio.h>
