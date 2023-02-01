@@ -1,107 +1,37 @@
 #include "lists.h"
-
-size_t looped_listint_count(listint_t *head);
-size_t free_listint_safe(listint_t **h);
-/**
-  * looped_listint_count - Counts the number of unique nodes
-  *		in a looped listint_t linked list.
-  *  @head: A pointer to the head of the listint_t to check.
-  *
-  * Return:  If the list is not looped - 0.
-  *		Otherwise - the number of unique nodes in the list.
-  */
-size_t looped_listint_count(listint_t *head)
-{
-
-	listint_t *tortoise, *hare;
-	size_t nodes = 1;
-
-	if (head == NULL || head->next == NULL)
-		return (0);
-
-	tortoise = head->next;
-	hare = (head->next)->next;
-
-	while (hare)
-	{
-
-		if (tortoise == hare)
-		{
-
-			tortoise = head;
-			while (tortoise != hare)
-			{
-
-				nodes++;
-				tortoise = tortoise->next;
-				hare = hare->next;
-			}
-
-			tortoise = tortoise->next;
-			while (tortoise != hare)
-			{
-
-				nodes++;
-				tortoise = tortoise->next;
-			}
-			return (nodes);
-
-		}
-
-		tortoise = tortoise->next;
-		hare = (hare->next)->next;
-	}
-	return (0);
-}
+#include <stdio.h>
 
 /**
-  * free_listint_safe - Frees a listint_t list safely (ie.
-  *			 can free lists containing loops)
-  * @h: A pointer to the address of
-  *	the head of the listint_t list.
-  *
-  * Return: The size of the list that was freed.
-  *
-  * Desc: The function sets the head to NULL.
-  */
+ * free_listint_safe - Frees a linked list containing integers
+ * @h: Address of the first item in the list
+ *
+ * Return: Length of the freed list
+ */
 size_t free_listint_safe(listint_t **h)
 {
+	listint_t *node = *h, *next;
+	size_t len = 0;
 
-	listint_t *tmp;
-	size_t nodes, index;
+	if (!h || !*h)
+		return (0);
 
-	nodes = looped_listint_count(*h);
-
-	if (nodes == 0)
+	while (node)
 	{
+		next = node->next;
 
-		for (; h != NULL && *h != NULL; nodes++)
+		free(node);
+		len++;
+
+		if ((void *)node <= (void *)next)
 		{
-
-			tmp = (*h)->next;
-			free(*h);
-			*h = tmp;
-		}
-	}
-
-	else
-	{
-		for (index = 0; index < nodes; index++)
-
-		{
-
-			tmp = (*h)->next;
-			free(*h);
-			*h = tmp;
-
+			*h = NULL;
+			break;
 		}
 
-		*h = NULL;
-
-
-
+		node = next;
 	}
-	h = NULL;
 
-	return (nodes);
+	*h = NULL;
+
+	return (len);
 }
